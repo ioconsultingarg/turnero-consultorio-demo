@@ -14,6 +14,8 @@ Hoy la reserva de turnos en la mayoría de los consultorios chicos se hace por t
 
 El flujo tiene 4 pasos: elegir especialidad → elegir profesional → elegir día y horario disponible → completar datos de contacto y motivo de consulta. Al confirmar, se muestra un resumen y una vista previa de cómo llegaría la confirmación por WhatsApp (mismo mecanismo simulado en `turnero-whatsapp-demo`).
 
+![Demo del flujo de reserva: especialidad, profesional, horario, datos y confirmación](assets/turnero-consultorio-reserva-demo.gif)
+
 ## Stack
 
 - HTML/CSS/JS puro, sin build step ni backend
