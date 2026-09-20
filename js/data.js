@@ -1,9 +1,9 @@
-// Datos ficticios de "Clínica Vitalis" — demo de portfolio de IO Consulting.
+// Datos ficticios de "Clínica Médica Ejemplo" — demo de portfolio de IO Consulting.
 // Todo en memoria: no hay backend real. En una implementación real, esto vendría
 // de Supabase o de Google Calendar (uno por profesional).
 
 const CLINICA = {
-  nombre: 'Clínica Vitalis',
+  nombre: 'Clínica Médica Ejemplo',
   direccion: 'Av. Belgrano 850, Buenos Aires',
   whatsapp: '5491155555555',
 };

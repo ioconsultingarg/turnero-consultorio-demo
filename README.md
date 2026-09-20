@@ -1,6 +1,6 @@
 # turnero-consultorio-demo
 
-Sistema de reserva de turnos online para consultorios, demo de portfolio de **IO Consulting**. Cliente ficticio: "Clínica Vitalis", un consultorio multiespecialidad (clínica médica, odontología, kinesiología) con varios profesionales atendiendo.
+Sistema de reserva de turnos online para consultorios, demo de portfolio de **IO Consulting**. Cliente ficticio: "Clínica Médica Ejemplo", un consultorio multiespecialidad (clínica médica, odontología, kinesiología) con varios profesionales atendiendo.
 
 Este demo cubre a la vez el turnero genérico (reservas online con recordatorio por WhatsApp) y su variante para el rubro salud, que necesita filtrar por especialidad y por profesional.
 

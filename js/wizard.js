@@ -1,4 +1,4 @@
-// Wizard de reserva de turno — Clínica Vitalis (demo IO Consulting).
+// Wizard de reserva de turno — Clínica Médica Ejemplo (demo IO Consulting).
 // Todo el estado vive en memoria (variable `estado`); no hay backend real.
 // En una implementación real esto se conectaría a Supabase o Google Calendar.
 
