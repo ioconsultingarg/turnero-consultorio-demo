@@ -19,6 +19,17 @@ let estado = {
 
 const dias = generarProximosDias(6);
 
+// Escapa texto ingresado por el usuario antes de insertarlo con innerHTML
+// (evita que alguien inyecte HTML/JS tipeándolo en un campo del formulario).
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function root() { return document.getElementById('wizardContent'); }
 
 function irAPaso(n) {
@@ -145,11 +156,11 @@ function renderPasoDatos() {
     <h2>Tus datos</h2>
     <div class="form-field">
       <label for="inpNombre">Nombre y apellido</label>
-      <input type="text" id="inpNombre" placeholder="Ej: Marina Gómez" value="${estado.nombre}">
+      <input type="text" id="inpNombre" placeholder="Ej: Marina Gómez" value="${escapeHtml(estado.nombre)}">
     </div>
     <div class="form-field">
       <label for="inpTelefono">WhatsApp / teléfono</label>
-      <input type="tel" id="inpTelefono" placeholder="Ej: 11 5555-5555" value="${estado.telefono}">
+      <input type="tel" id="inpTelefono" placeholder="Ej: 11 5555-5555" value="${escapeHtml(estado.telefono)}">
     </div>
     <div class="form-field">
       <label for="selMotivo">Motivo de la consulta</label>
@@ -162,7 +173,7 @@ function renderPasoDatos() {
     </div>
     <div class="form-field" id="campoObraSocial" style="display:${estado.tieneObraSocial ? 'block' : 'none'}">
       <label for="inpObraSocial">¿Cuál?</label>
-      <input type="text" id="inpObraSocial" placeholder="Ej: OSDE, Swiss Medical..." value="${estado.obraSocial}">
+      <input type="text" id="inpObraSocial" placeholder="Ej: OSDE, Swiss Medical..." value="${escapeHtml(estado.obraSocial)}">
     </div>
     <div class="btn-row">
       <button class="btn btn-secondary" id="btnVolver3">← Volver</button>
@@ -212,19 +223,19 @@ function alertaInline(msg) {
 function renderConfirmacion() {
   const prof = PROFESIONALES.find((p) => p.id === estado.profesionalId);
   const fechaLarga = formatearFechaLarga(estado.fecha);
-  const obraSocialTxt = estado.tieneObraSocial && estado.obraSocial ? ` — ${estado.obraSocial}` : (estado.tieneObraSocial ? ' (obra social sin especificar)' : ' — particular');
+  const obraSocialTxt = estado.tieneObraSocial && estado.obraSocial ? ` — ${escapeHtml(estado.obraSocial)}` : (estado.tieneObraSocial ? ' (obra social sin especificar)' : ' — particular');
 
   root().innerHTML = `
     <h2>¡Turno reservado! ✅</h2>
     <div class="confirm-summary">
-      <p><strong>Paciente:</strong> ${estado.nombre}</p>
+      <p><strong>Paciente:</strong> ${escapeHtml(estado.nombre)}</p>
       <p><strong>Profesional:</strong> ${prof.nombre} (${prof.especialidad})</p>
       <p><strong>Fecha:</strong> ${fechaLarga} a las ${estado.hora}</p>
-      <p><strong>Motivo:</strong> ${estado.motivo}${obraSocialTxt}</p>
+      <p><strong>Motivo:</strong> ${escapeHtml(estado.motivo)}${obraSocialTxt}</p>
     </div>
 
     <p class="wa-preview-label">Así te llegaría la confirmación por WhatsApp</p>
-    <div class="wa-bubble">¡Hola ${estado.nombre.split(' ')[0] || ''}! Confirmamos tu turno en ${CLINICA.nombre} 🩺
+    <div class="wa-bubble">¡Hola ${escapeHtml(estado.nombre.split(' ')[0] || '')}! Confirmamos tu turno en ${CLINICA.nombre} 🩺
 
 📅 ${fechaLarga} a las ${estado.hora}
 👨‍⚕️ ${prof.nombre} — ${prof.especialidad}
