@@ -4,14 +4,17 @@
 
 const CLINICA = {
   nombre: 'Clínica Médica Ejemplo',
-  direccion: 'Av. Belgrano 850, Buenos Aires',
-  whatsapp: '5491155555555',
+  direccion: 'Calle Ejemplo 123, Buenos Aires',
+  // Sin número a propósito: en Argentina no hay un rango reservado para números
+  // ficticios, así que cualquier número "inventado" puede ser la línea de alguien.
+  // Con el número vacío, el botón abre WhatsApp y el visitante elige el contacto.
+  whatsapp: '',
 };
 
 const PROFESIONALES = [
   { id: 'paz',    nombre: 'Dra. Laura Paz',      especialidad: 'Clínica médica', iniciales: 'LP', color: '#2f7d6b' },
   { id: 'funes',  nombre: 'Dr. Ezequiel Funes',  especialidad: 'Clínica médica', iniciales: 'EF', color: '#3a6ea5' },
-  { id: 'rios',   nombre: 'Dr. Martín Ríos',     especialidad: 'Odontología',    iniciales: 'MR', color: '#e3a857' },
+  { id: 'rios',   nombre: 'Dr. Martín Ríos',     especialidad: 'Odontología',    iniciales: 'MR', color: '#9a6412' },
   { id: 'duarte', nombre: 'Lic. Sofía Duarte',   especialidad: 'Kinesiología',   iniciales: 'SD', color: '#8a5fb0' },
 ];
 
@@ -29,12 +32,18 @@ const MESES_CORTO = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Se
 // Hash simple y determinístico para que la disponibilidad "ocupado/libre"
 // se vea siempre igual para la misma combinación profesional+día+horario,
 // en vez de ser aleatoria en cada carga de la página.
+// (FNV-1a con una mezcla final: sin esa mezcla, horarios consecutivos caían
+// todos del mismo lado y la agenda mostraba mañanas o tardes enteras ocupadas.)
 function hashOcupado(seedStr) {
-  let hash = 0;
+  let hash = 2166136261;
   for (let i = 0; i < seedStr.length; i++) {
-    hash = (hash * 31 + seedStr.charCodeAt(i)) >>> 0;
+    hash ^= seedStr.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
   }
-  return hash % 100 < 35; // ~35% de los horarios aparecen ocupados
+  hash ^= hash >>> 15;
+  hash = Math.imul(hash, 2246822507);
+  hash ^= hash >>> 13;
+  return (hash >>> 0) % 100 < 35; // ~35% de los horarios aparecen ocupados
 }
 
 // Genera los próximos N días hábiles (de lunes a sábado) a partir de hoy.
@@ -60,10 +69,14 @@ function formatearFechaLarga(fecha) {
 }
 
 // Devuelve los horarios del día para un profesional, marcando algunos como ocupados.
+// Si el día es hoy, los horarios que ya pasaron también figuran como no disponibles.
 function horariosDelDia(profesionalId, fecha) {
   const clave = `${profesionalId}-${fecha.getFullYear()}-${fecha.getMonth()}-${fecha.getDate()}`;
+  const ahora = new Date();
+  const esHoy = fecha.toDateString() === ahora.toDateString();
+  const horaActual = ahora.toTimeString().slice(0, 5);
   return HORARIOS_POSIBLES.map((hora) => ({
     hora,
-    ocupado: hashOcupado(clave + hora),
+    ocupado: hashOcupado(clave + hora) || (esHoy && hora <= horaActual),
   }));
 }

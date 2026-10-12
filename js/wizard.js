@@ -36,7 +36,18 @@ function irAPaso(n) {
   estado.paso = n;
   renderProgress();
   renderPaso();
-  window.scrollTo({ top: document.getElementById('wizardCard').offsetTop - 20, behavior: 'smooth' });
+  enfocarTitulo();
+  const sinAnimacion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({ top: document.getElementById('wizardCard').offsetTop - 20, behavior: sinAnimacion ? 'auto' : 'smooth' });
+}
+
+// Lleva el foco al título del paso recién dibujado, para que el teclado y los
+// lectores de pantalla sigan el cambio (si no, el foco queda perdido en <body>).
+function enfocarTitulo() {
+  const titulo = root().querySelector('h2');
+  if (!titulo) return;
+  titulo.tabIndex = -1;
+  titulo.focus({ preventScroll: true });
 }
 
 function renderProgress() {
@@ -46,7 +57,7 @@ function renderProgress() {
     let cls = 'progress-step';
     if (num < estado.paso) cls += ' done';
     else if (num === estado.paso) cls += ' active';
-    return `<div class="${cls}" data-num="${num}">${label}</div>`;
+    return `<div class="${cls}" data-num="${num}"${num === estado.paso ? ' aria-current="step"' : ''}>${label}</div>`;
   }).join('');
 }
 
@@ -63,7 +74,7 @@ function renderPasoEspecialidad() {
     <h2>¿Qué especialidad necesitás?</h2>
     <div class="option-grid">
       ${ESPECIALIDADES.map((e) => `
-        <button class="option-card ${estado.especialidad === e.key ? 'selected' : ''}" data-especialidad="${e.key}">
+        <button class="option-card ${estado.especialidad === e.key ? 'selected' : ''}" aria-pressed="${estado.especialidad === e.key}" data-especialidad="${e.key}">
           <h3>${e.key}</h3>
           <p>${e.desc}</p>
         </button>
@@ -85,8 +96,8 @@ function renderPasoProfesional() {
     <h2>Elegí profesional — ${estado.especialidad}</h2>
     <div class="option-grid">
       ${opciones.map((p) => `
-        <button class="option-card ${estado.profesionalId === p.id ? 'selected' : ''}" data-profesional="${p.id}">
-          <div class="avatar-circle" style="background:${p.color}">${p.iniciales}</div>
+        <button class="option-card ${estado.profesionalId === p.id ? 'selected' : ''}" aria-pressed="${estado.profesionalId === p.id}" data-profesional="${p.id}">
+          <div class="avatar-circle" style="background:${p.color}" aria-hidden="true">${p.iniciales}</div>
           <h3>${p.nombre}</h3>
           <p>${p.especialidad}</p>
         </button>
@@ -119,14 +130,15 @@ function renderPasoTurno() {
       ${dias.map((d) => {
         const { dow, num } = formatearDiaCorto(d);
         const sel = d.toDateString() === estado.fecha.toDateString();
-        return `<button class="day-pill ${sel ? 'selected' : ''}" data-fecha="${d.toISOString()}">${dow}<span class="day-num">${num}</span></button>`;
+        return `<button class="day-pill ${sel ? 'selected' : ''}" aria-pressed="${sel}" data-fecha="${d.toISOString()}">${dow}<span class="day-num">${num}</span></button>`;
       }).join('')}
     </div>
     <div class="slot-grid">
       ${horarios.map((h) => `
-        <button class="slot-btn ${estado.hora === h.hora ? 'selected' : ''}" data-hora="${h.hora}" ${h.ocupado ? 'disabled' : ''}>${h.hora}</button>
+        <button class="slot-btn ${estado.hora === h.hora ? 'selected' : ''}" aria-pressed="${estado.hora === h.hora}" data-hora="${h.hora}" ${h.ocupado ? 'disabled' : ''}>${h.hora}</button>
       `).join('')}
     </div>
+    ${horarios.every((h) => h.ocupado) ? '<p class="empty-note">No quedan horarios disponibles este día. Probá con otro.</p>' : ''}
     <div class="btn-row">
       <button class="btn btn-secondary" id="btnVolver2">← Volver</button>
       <button class="btn btn-primary" id="btnSiguiente3" ${estado.hora ? '' : 'disabled'}>Continuar →</button>
@@ -156,11 +168,11 @@ function renderPasoDatos() {
     <h2>Tus datos</h2>
     <div class="form-field">
       <label for="inpNombre">Nombre y apellido</label>
-      <input type="text" id="inpNombre" placeholder="Ej: Marina Gómez" value="${escapeHtml(estado.nombre)}">
+      <input type="text" id="inpNombre" placeholder="Ej: Marina Gómez" autocomplete="name" value="${escapeHtml(estado.nombre)}">
     </div>
     <div class="form-field">
       <label for="inpTelefono">WhatsApp / teléfono</label>
-      <input type="tel" id="inpTelefono" placeholder="Ej: 11 5555-5555" value="${escapeHtml(estado.telefono)}">
+      <input type="tel" id="inpTelefono" placeholder="Ej: 11 5555-5555" autocomplete="tel" inputmode="tel" value="${escapeHtml(estado.telefono)}">
     </div>
     <div class="form-field">
       <label for="selMotivo">Motivo de la consulta</label>
@@ -175,6 +187,7 @@ function renderPasoDatos() {
       <label for="inpObraSocial">¿Cuál?</label>
       <input type="text" id="inpObraSocial" placeholder="Ej: OSDE, Swiss Medical..." value="${escapeHtml(estado.obraSocial)}">
     </div>
+    <p class="demo-note">Demo: estos datos no se guardan ni se envían a ningún lado.</p>
     <div class="btn-row">
       <button class="btn btn-secondary" id="btnVolver3">← Volver</button>
       <button class="btn btn-primary" id="btnConfirmar">Confirmar turno →</button>
@@ -196,6 +209,10 @@ function renderPasoDatos() {
       alertaInline('Completá al menos tu nombre y teléfono para confirmar.');
       return;
     }
+    if (estado.telefono.replace(/D/g, '').length < 8) {
+      alertaInline('Revisá el teléfono: tiene que tener al menos 8 números.');
+      return;
+    }
     irAPaso(5);
   });
 }
@@ -212,9 +229,8 @@ function alertaInline(msg) {
   if (!aviso) {
     aviso = document.createElement('p');
     aviso.id = 'avisoInline';
-    aviso.style.color = '#b5462f';
-    aviso.style.fontSize = '0.85rem';
-    aviso.style.fontWeight = '600';
+    aviso.className = 'form-error';
+    aviso.setAttribute('role', 'alert');
     root().insertBefore(aviso, root().querySelector('.btn-row'));
   }
   aviso.textContent = msg;

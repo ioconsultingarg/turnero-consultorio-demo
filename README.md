@@ -20,9 +20,9 @@ Hoy la reserva de turnos en la mayoría de los consultorios chicos se hace por t
 
 ## Demo
 
-`https://ioconsultingarg.github.io/turnero-consultorio-demo/`
+<https://ioconsultingarg.github.io/turnero-consultorio-demo/>
 
-El flujo tiene 4 pasos: elegir especialidad → elegir profesional → elegir día y horario disponible → completar datos de contacto y motivo de consulta. Al confirmar, se muestra un resumen y una vista previa de cómo llegaría la confirmación por WhatsApp (mismo mecanismo simulado en `turnero-whatsapp-demo`).
+El flujo tiene 4 pasos: elegir especialidad → elegir profesional → elegir día y horario disponible → completar datos de contacto y motivo de consulta. Al confirmar, se muestra una pantalla final con un resumen y una vista previa de cómo llegaría la confirmación por WhatsApp (mismo mecanismo simulado en `turnero-whatsapp-demo`).
 
 ![Demo del flujo de reserva: especialidad, profesional, horario, datos y confirmación](assets/turnero-consultorio-reserva-demo.gif)
 
@@ -56,7 +56,7 @@ Este demo solo pide datos de contacto y motivo de consulta, no historia clínica
 
 1. Editar `PROFESIONALES` y `ESPECIALIDADES` en `js/data.js` con el staff real
 2. Ajustar `HORARIOS_POSIBLES` según el horario de atención
-3. Cambiar el número de WhatsApp en `CLINICA.whatsapp` (`js/data.js`) y en el botón flotante de `index.html`
+3. Cargar el número de WhatsApp del negocio en `CLINICA.whatsapp` (`js/data.js`) y en el botón flotante de `index.html` (`https://wa.me/<número>?text=...`). En la demo va sin número a propósito, para no apuntar a la línea de un tercero
 4. Sirve igual para peluquerías, talleres, canchas o cualquier negocio con varios "profesionales"/recursos y turnos — solo cambia el texto y las especialidades por rubros o servicios
 
 ## Estructura
@@ -64,9 +64,11 @@ Este demo solo pide datos de contacto y motivo de consulta, no historia clínica
 ```
 turnero-consultorio-demo/
 ├── index.html          (wizard de reserva)
+├── 404.html            (página de enlace roto para GitHub Pages)
+├── assets/             (GIF del README e imagen de vista previa para compartir)
 ├── css/styles.css
 ├── js/data.js            (profesionales, especialidades, disponibilidad)
-├── js/wizard.js           (lógica de los 5 pasos del flujo)
+├── js/wizard.js           (lógica de los 4 pasos del flujo y la pantalla de confirmación)
 ├── README.md
 └── LICENSE
 ```
