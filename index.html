@@ -26,36 +26,55 @@
 
 <header class="page-header">
   <div class="container">
-    <h1>Clínica Médica Ejemplo</h1>
-    <p class="page-subtitle">Reservá tu turno online: elegí especialidad, profesional, día y horario. Confirmación y recordatorio automático por WhatsApp.</p>
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="22" height="22"><path d="M13 6h6v7h7v6h-7v7h-6v-7H6v-6h7z" fill="currentColor"/></svg>
+      </span>
+      <h1>Clínica Médica Ejemplo</h1>
+    </div>
+    <p class="page-subtitle">Reservá tu turno online en menos de un minuto.</p>
+    <ul class="header-chips">
+      <li>Sin llamadas</li>
+      <li>Confirmación por WhatsApp</li>
+      <li>Recordatorio 24 hs antes</li>
+    </ul>
   </div>
 </header>
 
 <main class="container">
-  <!-- El primer paso va ya dibujado en el HTML para que la página no "salte" mientras
-       cargan los scripts. js/wizard.js lo vuelve a generar desde js/data.js al iniciar,
-       así que si cambian las especialidades, actualizar también este bloque. -->
-  <div class="progress-bar" id="progressBar">
-    <div class="progress-step active" data-num="1" aria-current="step">Especialidad</div>
-    <div class="progress-step" data-num="2">Profesional</div>
-    <div class="progress-step" data-num="3">Turno</div>
-    <div class="progress-step" data-num="4">Datos</div>
-  </div>
+  <!-- La barra de progreso y el primer paso van ya dibujados en el HTML para que la página
+       no "salte" mientras cargan los scripts. js/wizard.js vuelve a generar el paso desde
+       js/data.js al iniciar, así que si cambian las especialidades, actualizar también este bloque. -->
   <div class="card" id="wizardCard">
+    <div class="progress-bar" id="progressBar">
+      <div class="progress-step active" data-num="1" aria-current="step">Especialidad</div>
+      <div class="progress-step" data-num="2">Profesional</div>
+      <div class="progress-step" data-num="3">Turno</div>
+      <div class="progress-step" data-num="4">Datos</div>
+    </div>
     <div id="wizardContent">
       <h2>¿Qué especialidad necesitás?</h2>
       <div class="option-grid">
         <button class="option-card" aria-pressed="false" data-especialidad="Clínica médica">
-          <h3>Clínica médica</h3>
-          <p>Consulta general, controles, certificados</p>
+          <span class="option-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
+          <span class="option-text">
+            <strong class="option-title">Clínica médica</strong>
+            <span class="option-desc">Consulta general, controles, certificados</span>
+          </span>
         </button>
         <button class="option-card" aria-pressed="false" data-especialidad="Odontología">
-          <h3>Odontología</h3>
-          <p>Controles, limpieza, urgencias</p>
+          <span class="option-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 3C5 3 4 5 4 7.5c0 2 .8 3.2 1.2 5 .5 2.3.6 7.5 2.3 7.5 1.6 0 1.4-5 4.5-5s2.9 5 4.5 5c1.7 0 1.8-5.2 2.3-7.5.4-1.8 1.2-3 1.2-5C20 5 19 3 16.5 3c-1.8 0-2.8 1-4.5 1s-2.7-1-4.5-1z"/></svg></span>
+          <span class="option-text">
+            <strong class="option-title">Odontología</strong>
+            <span class="option-desc">Controles, limpieza, urgencias</span>
+          </span>
         </button>
         <button class="option-card" aria-pressed="false" data-especialidad="Kinesiología">
-          <h3>Kinesiología</h3>
-          <p>Rehabilitación y sesiones de seguimiento</p>
+          <span class="option-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"/><path d="M5 9.5l7 1.5 7-1.5M12 11v4.5M12 15.5l-4 5.5M12 15.5l4 5.5"/></svg></span>
+          <span class="option-text">
+            <strong class="option-title">Kinesiología</strong>
+            <span class="option-desc">Rehabilitación y sesiones de seguimiento</span>
+          </span>
         </button>
       </div>
     </div>
@@ -80,5 +99,6 @@
 
 <script src="js/data.js"></script>
 <script src="js/wizard.js"></script>
+<script type="module" src="js/motion.js"></script>
 </body>
 </html>

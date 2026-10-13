@@ -19,9 +19,9 @@ const PROFESIONALES = [
 ];
 
 const ESPECIALIDADES = [
-  { key: 'Clínica médica', desc: 'Consulta general, controles, certificados' },
-  { key: 'Odontología',    desc: 'Controles, limpieza, urgencias' },
-  { key: 'Kinesiología',   desc: 'Rehabilitación y sesiones de seguimiento' },
+  { key: 'Clínica médica', icono: 'pulso',      desc: 'Consulta general, controles, certificados' },
+  { key: 'Odontología',    icono: 'diente',     desc: 'Controles, limpieza, urgencias' },
+  { key: 'Kinesiología',   icono: 'movimiento', desc: 'Rehabilitación y sesiones de seguimiento' },
 ];
 
 const HORARIOS_POSIBLES = ['09:00', '09:30', '10:00', '10:30', '11:00', '15:00', '15:30', '16:00', '16:30', '17:00'];

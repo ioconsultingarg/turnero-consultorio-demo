@@ -29,6 +29,7 @@ El flujo tiene 4 pasos: elegir especialidad → elegir profesional → elegir d�
 ## Stack
 
 - HTML/CSS/JS puro, sin build step ni backend
+- Animaciones con CSS y [Anime.js](https://animejs.com) v4, alojado en `js/vendor/` (`js/motion.js`). Son una mejora progresiva: si el script no carga o el visitante pidió menos movimiento (`prefers-reduced-motion`), todo funciona igual, sin animar
 - Estado del wizard en memoria (`js/wizard.js`) — se reinicia al recargar la página, es intencional para esta versión demo
 - Disponibilidad de horarios generada de forma determinística por profesional/día/horario (`js/data.js`), para que se vea siempre igual sin necesitar una base de datos real
 - Tipografías Poppins e Inter alojadas en el repo (`assets/fonts/`, licencia OFL), sin pedidos a servidores de terceros
@@ -69,9 +70,18 @@ turnero-consultorio-demo/
 ├── css/styles.css
 ├── js/data.js            (profesionales, especialidades, disponibilidad)
 ├── js/wizard.js           (lógica de los 4 pasos del flujo y la pantalla de confirmación)
+├── js/motion.js           (animaciones: cambio de paso, entradas escalonadas, secuencia de confirmación)
+├── js/vendor/             (Anime.js y su licencia)
 ├── README.md
 └── LICENSE
 ```
+
+## Componentes de terceros
+
+- **Anime.js** v4.5.0 — © Julian Garnier, licencia MIT (`js/vendor/LICENSE-animejs.md`). El archivo `js/vendor/anime.min.js` es un bundle reducido con solo `animate`, `createTimeline`, `stagger` y `svg`, generado con esbuild a partir del paquete `animejs` de npm.
+- **Inter** y **Poppins** — licencia SIL Open Font License 1.1 (`assets/fonts/`).
+
+Los íconos, el diseño y el resto del código son propios.
 
 ## Próximas mejoras posibles
 
