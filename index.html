@@ -33,9 +33,33 @@
 </header>
 
 <main class="container">
-  <div class="progress-bar" id="progressBar"></div>
+  <!-- El primer paso va ya dibujado en el HTML para que la página no "salte" mientras
+       cargan los scripts. js/wizard.js lo vuelve a generar desde js/data.js al iniciar,
+       así que si cambian las especialidades, actualizar también este bloque. -->
+  <div class="progress-bar" id="progressBar">
+    <div class="progress-step active" data-num="1" aria-current="step">Especialidad</div>
+    <div class="progress-step" data-num="2">Profesional</div>
+    <div class="progress-step" data-num="3">Turno</div>
+    <div class="progress-step" data-num="4">Datos</div>
+  </div>
   <div class="card" id="wizardCard">
-    <div id="wizardContent"></div>
+    <div id="wizardContent">
+      <h2>¿Qué especialidad necesitás?</h2>
+      <div class="option-grid">
+        <button class="option-card" aria-pressed="false" data-especialidad="Clínica médica">
+          <h3>Clínica médica</h3>
+          <p>Consulta general, controles, certificados</p>
+        </button>
+        <button class="option-card" aria-pressed="false" data-especialidad="Odontología">
+          <h3>Odontología</h3>
+          <p>Controles, limpieza, urgencias</p>
+        </button>
+        <button class="option-card" aria-pressed="false" data-especialidad="Kinesiología">
+          <h3>Kinesiología</h3>
+          <p>Rehabilitación y sesiones de seguimiento</p>
+        </button>
+      </div>
+    </div>
   </div>
 
   <p class="legal-note">
