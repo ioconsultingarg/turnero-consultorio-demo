@@ -47,10 +47,13 @@ function hashOcupado(seedStr) {
 }
 
 // Genera los próximos N días hábiles (de lunes a sábado) a partir de hoy.
+// Si hoy ya pasó el último horario de atención, arranca desde mañana.
 function generarProximosDias(cantidad) {
   const dias = [];
   const hoy = new Date();
   let cursor = new Date(hoy);
+  const ultimoHorario = HORARIOS_POSIBLES[HORARIOS_POSIBLES.length - 1];
+  if (hoy.toTimeString().slice(0, 5) >= ultimoHorario) cursor.setDate(cursor.getDate() + 1);
   while (dias.length < cantidad) {
     if (cursor.getDay() !== 0) { // saltea domingos
       dias.push(new Date(cursor));

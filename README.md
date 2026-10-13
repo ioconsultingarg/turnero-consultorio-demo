@@ -31,7 +31,7 @@ El flujo tiene 4 pasos: elegir especialidad → elegir profesional → elegir d�
 - HTML/CSS/JS puro, sin build step ni backend
 - Estado del wizard en memoria (`js/wizard.js`) — se reinicia al recargar la página, es intencional para esta versión demo
 - Disponibilidad de horarios generada de forma determinística por profesional/día/horario (`js/data.js`), para que se vea siempre igual sin necesitar una base de datos real
-- Google Fonts (Poppins + Inter)
+- Tipografías Poppins e Inter alojadas en el repo (`assets/fonts/`, licencia OFL), sin pedidos a servidores de terceros
 
 ## Cómo correrlo local
 
@@ -65,7 +65,7 @@ Este demo solo pide datos de contacto y motivo de consulta, no historia clínica
 turnero-consultorio-demo/
 ├── index.html          (wizard de reserva)
 ├── 404.html            (página de enlace roto para GitHub Pages)
-├── assets/             (GIF del README e imagen de vista previa para compartir)
+├── assets/             (GIF del README, imagen de vista previa para compartir y tipografías)
 ├── css/styles.css
 ├── js/data.js            (profesionales, especialidades, disponibilidad)
 ├── js/wizard.js           (lógica de los 4 pasos del flujo y la pantalla de confirmación)
